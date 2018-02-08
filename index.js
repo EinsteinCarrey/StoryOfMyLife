@@ -2,7 +2,8 @@ const http = require('http');
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const index = require('./routes/index');
+const stories = require('./routes/stories');
+const users = require('./routes/users');
 const mongoose = require('mongoose');
 const DBusername = process.env.DB_USER;
 const DBpassword = process.env.DB_PASS;
@@ -21,10 +22,11 @@ mongoose.connect(DBConnStr).catch((err) =>{ console.log(err); });
 app.use(logger('dev')); // log http requests to the console
 app.use(bodyParser.json());// parse application/json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
-app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
+// app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 
 /* Routes */
-app.use('/', index);
+app.use('/', stories);
+app.use('/users/', users);
 
 /* catch 404 and send error message */
 app.use(function (req, res) {
