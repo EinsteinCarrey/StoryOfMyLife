@@ -4,6 +4,9 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const index = require('./routes/index');
 const mongoose = require('mongoose');
+const DBusername = process.env.DB_USER;
+const DBpassword = process.env.DB_PASS;
+const DBConnStr = `mongodb://${DBusername}:${DBpassword}@localhost/story-of-my-life`;
 
 let app = express();
 
@@ -11,19 +14,14 @@ let app = express();
 /* Override deprecated promise in mongoose */
 mongoose.Promise = global.Promise;
 
-/* Connect to MongoDB */
-/* Create database 'story-of-my-life' if it doesn't exist */
-const username = process.env.DB_USER;
-const password = process.env.DB_PASS;
-const connectionStr = `mongodb://${username}:${password}@localhost/story-of-my-life`;
-mongoose.connect(connectionStr).catch((err) =>{
-    console.log(err);
-});
+/* Connect to MongoDB and Create database 'story-of-my-life' if it doesn't exist */
+mongoose.connect(DBConnStr).catch((err) =>{ console.log(err); });
 
 /* Load middleware */
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(logger('dev')); // log http requests to the console
+app.use(bodyParser.json());// parse application/json
+app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
+app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 
 /* Routes */
 app.use('/', index);

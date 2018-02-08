@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 /*
  * Define comments schema
  */
-const commentsSchema = new Schema({
+const CommentsSchema = new Schema({
     comment: {
         type: String,
         required: [true, 'Comment must be provided']
@@ -16,10 +16,24 @@ const commentsSchema = new Schema({
     story_id: {
         type: Number,
         required: [true, 'Each comments must belong to a story']
+    },
+    createdOn:{
+        type: Date,
+        default: Date.now
     }
 });
 
+// Sets the createdAt parameter equal to the current time
+CommentsSchema.pre('save', next => {
+    const now = new Date();
+    if(!this.createdOn) {
+        this.createdOn = now;
+    }
+    next();
+});
+
+
 /* Create a collection called 'comment' */
-const Comments = mongoose.model('comment', commentsSchema);
+const Comments = mongoose.model('comment', CommentsSchema);
 
 module.exports = Comments;

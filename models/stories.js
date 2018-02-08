@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 /*
  * Define stories schema
  */
-const storiesSchema = new Schema({
+const StoriesSchema = new Schema({
     story: {
         type: String,
         minLength: 50,
@@ -13,10 +13,24 @@ const storiesSchema = new Schema({
     user: {
         type: Number,
         required: [true, 'Story must belong to a user']
+    },
+    createdOn:{
+        type: Date,
+        default: Date.now
     }
 });
 
+// Sets the createdAt parameter equal to the current time
+StoriesSchema.pre('save', next => {
+    const now = new Date();
+    if(!this.createdOn) {
+        this.createdOn = now;
+    }
+    next();
+});
+
+
 /* Create a collection called 'stories' */
-const Stories = mongoose.model('storie', storiesSchema);
+const Stories = mongoose.model('storie', StoriesSchema);
 
 module.exports = Stories;
