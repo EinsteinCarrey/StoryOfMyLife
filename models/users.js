@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const sha1 = require('sha1');
 
 /*
  * Define users schema
@@ -19,6 +20,26 @@ const UserSchema = new Schema({
         minLength: [6, 'Password must be atleast 6 characters long'],
         required: [true, 'Password must be provided']
     }
+});
+
+/* Hash password before saving to DB */
+UserSchema.pre("save", function (next) {
+    // store reference
+    const user = this;
+
+    //Check if password is provided
+    if (!user.passwd) {
+        console.log('not provided')
+        return next();
+    }
+    // Convert username and display to lowercase
+    user.username = user.username.toLowerCase();
+    user.displayName = user.displayName.toLowerCase();
+
+    // hash the password using sha1
+    user.passwd = sha1(user.passwd);
+
+    next();
 });
 
 /* Create a collection called 'users' */

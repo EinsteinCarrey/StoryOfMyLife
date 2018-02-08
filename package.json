@@ -13,6 +13,7 @@
     "mongoose": "^5.0.3",
     "morgan": "~1.9.0",
     "serve-favicon": "~2.4.5",
+    "sha1": "^1.1.1",
     "sinon": "^2.4.1",
     "sinon-mongoose": "^2.0.2"
   },
