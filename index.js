@@ -2,15 +2,16 @@ const http = require('http');
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
+const index = require('./routes/index');
 const stories = require('./routes/stories');
 const users = require('./routes/users');
 const mongoose = require('mongoose');
 const DBusername = process.env.DB_USER;
 const DBpassword = process.env.DB_PASS;
 const DBConnStr = `mongodb://${DBusername}:${DBpassword}@localhost/story-of-my-life`;
+const jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
-let app = express();
-
+let app = express(); // Initialize express
 
 /* Override deprecated promise in mongoose */
 mongoose.Promise = global.Promise;
@@ -22,11 +23,45 @@ mongoose.connect(DBConnStr).catch((err) =>{ console.log(err); });
 app.use(logger('dev')); // log http requests to the console
 app.use(bodyParser.json());// parse application/json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
-// app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 
 /* Routes */
-app.use('/', stories);
+app.use('/', index);
 app.use('/users/', users);
+
+/**
+ *  middleware to verify authentication token
+ *  all routes from here onwards will require authentication
+ */
+app.use(function(request, response, next) {
+
+    // check header or url parameters or post parameters for token
+    let token = request.body.token || request.query.token || request.headers['x-access-token'];
+
+    // decode token
+    if (token) {
+
+        // verifies secret and checks exp
+        jwt.verify(token, process.env.SECRET_KEY, (err, decoded) =>{
+            if (err) {
+                return response.json({errMsg: 'Failed to authenticate token.' });
+            } else {
+                // if everything is good, save to request for use in other routes
+                request.decoded = decoded;
+                next();
+            }
+        });
+
+    } else {
+
+        // if there is no token return an error
+        return response.status(403).send({
+            errMsg: 'No token provided.'
+        });
+
+    }
+});
+
+app.use('/', stories);
 
 /* catch 404 and send error message */
 app.use(function (req, res) {

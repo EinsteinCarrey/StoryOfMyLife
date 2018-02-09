@@ -2,21 +2,11 @@ const express = require('express');
 let router = express.Router();
 let Stories = require('../models/stories');
 
-
-router.get('/', function (request, response) {
-    //Query the DB and if no errors, retrieve all the stories
-    let query = Stories.find({});
-    query.exec().then((output)=>{
-        response.send(output);
-    }).catch((err)=>{
-        response.send({error: err});
-    });
-});
-
 /* GET home page. */
-router.post('/', function (req, res) {
-    console.log(req.body);
-    res.send(req.body);
+router.post('/', function (request, response) {
+    /* Get current user */
+    const userID = request.decoded.userId;
+    response.send(userID);
 });
 
 /* GET home page. */

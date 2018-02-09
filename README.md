@@ -16,4 +16,4 @@
 Set environment variables
  `DB_USER` => Database user
  `DB_PASS` => Database password
-
+ `SECRET_KEY` => Secret key for this application
