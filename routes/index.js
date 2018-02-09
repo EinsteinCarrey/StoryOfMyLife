@@ -2,6 +2,7 @@ const express = require('express');
 let router = express.Router();
 let Stories = require('../models/stories');
 
+/* List all stories */
 router.get('/', function (request, response) {
 
     //Query the DB and if no errors, retrieve all the stories
