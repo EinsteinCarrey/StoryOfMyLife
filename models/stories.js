@@ -11,7 +11,7 @@ const StoriesSchema = new Schema({
         required: [true, 'story must be provided']
     },
     user: {
-        type: Number,
+        type: String,
         required: [true, 'Story must belong to a user']
     },
     createdOn:{
@@ -24,7 +24,7 @@ const StoriesSchema = new Schema({
 StoriesSchema.pre('save', next => {
     const now = new Date();
     if(!this.createdOn) {
-        this.createdOn = now;
+        this.createdOn = now.toDateString();
     }
     next();
 });

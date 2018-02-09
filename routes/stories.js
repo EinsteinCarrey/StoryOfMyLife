@@ -1,12 +1,23 @@
 const express = require('express');
 let router = express.Router();
-let Stories = require('../models/stories');
+let Story = require('../models/stories');
 
-/* GET home page. */
+/* Create a new story */
 router.post('/', function (request, response) {
     /* Get current user */
     const userID = request.decoded.userId;
-    response.send(userID);
+    request.body.user = userID;
+
+    // Create story
+    let newStory = new Story(request.body);
+
+    /* Save it to the DB. */
+    newStory.save().then((output)=>{
+        response.send(output);
+    }).catch((err)=>{
+        response.send(err);
+    });
+
 });
 
 /* GET home page. */
