@@ -9,6 +9,20 @@ String.prototype.getTextBetween = function(splitOn, middleTextDesired = 1) {
 };
 
 /* Create a new comment on a story */
+router.get('/', (request, response) =>{
+
+    /* Set story slug as key */
+    const key = {storyRef: request.originalUrl.getTextBetween("/")};
+
+    /* Save it to the DB. */
+    Comment.find(key).then((output)=>{
+        response.send(output);
+    }).catch((err)=>{
+        response.send(err);
+    });
+});
+
+/* Create a new comment on a story */
 router.post('/', (request, response) =>{
     /* Get current user */
     request.body.user = request.decoded.userId;
@@ -29,7 +43,6 @@ router.post('/', (request, response) =>{
         response.send(err);
     });
 });
-
 
 /* Update a comment */
 router.put('/:commentID', (request, response) =>{
