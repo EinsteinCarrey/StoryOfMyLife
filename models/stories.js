@@ -23,7 +23,7 @@ const StoriesSchema = new Schema({
         required: [true, 'Story must belong to a user']
     },
     createdOn:{
-        type: Date,
+        type: String,
         default: Date.now
     }
 });

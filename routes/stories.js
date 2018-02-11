@@ -1,6 +1,7 @@
 const express = require('express');
 let router = express.Router();
 let Story = require('../models/stories');
+let Comment = require('../models/comments');
 const slug = require('slug');
 const now = new Date();
 
@@ -22,7 +23,6 @@ router.post('/', (request, response) =>{
         response.send(err);
     });
 });
-
 
 /* Update a story */
 router.put('/:referenceSlug', (request, response) =>{

@@ -4,6 +4,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const index = require('./routes/index');
 const stories = require('./routes/stories');
+const comments = require('./routes/comments');
 const users = require('./routes/users');
 const mongoose = require('mongoose');
 const DBusername = process.env.DB_USER;
@@ -62,6 +63,7 @@ app.use(function(request, response, next) {
 });
 
 app.use('/', stories);
+app.use('/:story/comment/', comments);
 
 /* catch 404 and send error message */
 app.use(function (req, res) {

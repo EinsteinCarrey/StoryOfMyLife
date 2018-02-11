@@ -10,26 +10,17 @@ const CommentsSchema = new Schema({
         required: [true, 'Comment must be provided']
     },
     user: {
-        type: Number,
+        type: String,
         required: [true, 'Each comment must belong to a user']
     },
-    story_id: {
-        type: Number,
+    storyRef: {
+        type: String,
         required: [true, 'Each comments must belong to a story']
     },
     createdOn:{
-        type: Date,
+        type: String,
         default: Date.now
     }
-});
-
-// Sets the createdAt parameter equal to the current time
-CommentsSchema.pre('save', next => {
-    const now = new Date();
-    if(!this.createdOn) {
-        this.createdOn = now;
-    }
-    next();
 });
 
 
