@@ -6,6 +6,7 @@ import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
 import Banner from "./banner";
+import Loader from "./loader";
 
 const stories = [
     "title 1",
@@ -34,30 +35,67 @@ let styles = theme => ({
         maxWidth: 345,
     },
     media: {
-        height: 200,
+        height: 170,
+    },
+    placeholder: {
+        height: 40,
     }
 });
 
 
 class Homepage extends Component {
 
+    state = {
+        loading: false,
+        query: 'progress',
+    };
     classes = this.props.classes;
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+    }
+
+    handleClickQuery = () => {
+        clearTimeout(this.timer);
+
+        if (this.state.query !== 'idle') {
+            this.setState({
+                query: 'idle',
+            });
+            return;
+        }
+
+        this.setState({
+            query: 'progress',
+        });
+        this.timer = setTimeout(() => {
+            this.setState({
+                query: 'success',
+            });
+        }, 2e3);
+    };
 
     render() {
 
-        const {card, media, root} = this.classes;
+        const {card, media, root, button} = this.classes;
+        const { loading, query } = this.state;
 
         return (
             <div className="homepage">
 
                 <Banner/>
 
+                <Button onClick={this.handleClickQuery} className={button}>
+                    {query !== 'idle' ? 'Reset' : 'Simulate a load'}
+                </Button>
+
                 <section className="stories-dashboard">
+                    <Loader classes={this.classes} query={query}/>
                     <div className={root}>
                         <Grid container spacing={24}>
 
                             {stories.map((story, index)=>(
-                                <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+                                <Grid key={index} item xs={12} sm={6} md={4} >
                                     <Card className={card}>
                                         <CardMedia
                                             className={media}
