@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const sha1 = require('sha1');
+const sha256 = require('sha256');
 
 /*
  * Define users schema
@@ -29,7 +29,7 @@ UserSchema.pre("save", function (next) {
 
     //Check if password is provided
     if (!user.passwd) {
-        console.log('not provided')
+        console.log('not provided');
         return next();
     }
     // Convert username and display to lowercase
@@ -37,7 +37,7 @@ UserSchema.pre("save", function (next) {
     user.displayName = user.displayName.toLowerCase();
 
     // hash the password using sha1
-    user.passwd = sha1(user.passwd);
+    user.passwd = sha256(user.passwd);
 
     next();
 });
