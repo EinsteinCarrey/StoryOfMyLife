@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import Banner from "./banner";
 import StoriesDashBoard from "./storiesDashBoard";
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import {connect, bindActionCreators} from 'react-redux';
 
 
 class Homepage extends Component {
@@ -50,5 +49,5 @@ const mapStateToProps = (state)=> {
 };
 
 
-export default connect(mapStateToProps, Homepage);
+export default connect(mapStateToProps)(Homepage);
 // export default Homepage;
