@@ -1,16 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Fade from 'material-ui/transitions/Fade';
-import { withStyles } from 'material-ui/styles';
 import { CircularProgress } from 'material-ui/Progress';
 import Typography from 'material-ui/Typography';
-
-
-const styles = {
-    placeholder: {
-        height: 40,
-    }
-};
 
 class Loader extends React.Component {
 
@@ -39,8 +31,8 @@ class Loader extends React.Component {
 
 
 Loader.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.string.isRequired
 };
 
-export default withStyles(styles)(Loader);
+export default Loader;
 
