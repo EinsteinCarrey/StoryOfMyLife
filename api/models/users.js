@@ -36,7 +36,7 @@ UserSchema.pre("save", function (next) {
     user.username = user.username.toLowerCase();
     user.displayName = user.displayName.toLowerCase();
 
-    // hash the password using sha1
+    // hash the password using sha256
     user.passwd = sha256(user.passwd);
 
     next();
