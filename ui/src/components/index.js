@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Banner from "./banner";
 import StoriesDashBoard from "./storiesDashBoard";
+import ViewStory from "./viewStory";
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
 import {fetchStories} from '../actions/storiesActions';
@@ -9,15 +10,19 @@ import Loader from "./loader";
 
 class Homepage extends Component {
     state = {
-        stories:this.props.stories,
-        loading:this.props.loading,
+        ...this.props,
         placeholder: {
             height: 40,
         }
     };
 
+    /* Get story slug from URL */
+    /* default = undefined*/
+    storyRef = this.state.match.params.storyRef;
+
     componentDidMount(){
-        this.props.fetchStories();
+        /* Fetch stories from API */
+        this.props.fetchStories(this.storyRef);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -34,9 +39,12 @@ class Homepage extends Component {
         return (
             <div className="homepage">
 
-                <Banner/>
                 {loading &&  <Loader classes={placeholder} loading={loading}/>}
-                <StoriesDashBoard stories={stories}/>
+
+                {
+                    this.storyRef ? <ViewStory story={stories}/> :
+                    (<Banner/> && <StoriesDashBoard stories={stories}/>)
+                }
 
             </div>
         );

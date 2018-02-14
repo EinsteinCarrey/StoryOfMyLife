@@ -6,7 +6,7 @@ const displayErrorMessage = (err) =>{
     return {type: actionTypes.DISPLAY_ERROR_MSG}
 };
 
-export const fetchStories = (storyID = null) =>{
+export const fetchStories = (storyRef = null) =>{
 
     return function (dispatch) {
 
@@ -15,7 +15,7 @@ export const fetchStories = (storyID = null) =>{
 
         setTimeout(()=>{
 
-            fetchFromApi("get").then((outPut) => {
+            fetchFromApi("get", storyRef).then((outPut) => {
                 dispatch({
                     type: actionTypes.FETCH_STORIES_SUCCESS,
                     stories: outPut
