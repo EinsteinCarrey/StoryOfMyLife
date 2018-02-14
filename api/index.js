@@ -10,9 +10,11 @@ const mongoose = require('mongoose');
 const DBusername = process.env.DB_USER;
 const DBpassword = process.env.DB_PASS;
 const DBConnStr = `mongodb://${DBusername}:${DBpassword}@localhost/story-of-my-life`;
-const jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const cors = require('cors');
 
 let app = express(); // Initialize express
+app.use(cors()); // Allow cross origin request
 
 /* Override deprecated promise in mongoose */
 mongoose.Promise = global.Promise;
