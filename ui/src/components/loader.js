@@ -2,29 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Fade from 'material-ui/transitions/Fade';
 import { CircularProgress } from 'material-ui/Progress';
-import Typography from 'material-ui/Typography';
 
 class Loader extends React.Component {
 
     render() {
 
-        const { classes, query } = this.props;
+        const { classes, loading } = this.props;
 
         return(
             <div className={["loader", classes.placeholder].join(' ')}>
-                {query === 'success' ? (
-                    <Typography>Success!</Typography>
-                ) : (
-                    <Fade
-                        in={query === 'progress'}
-                        style={{
-                            transitionDelay: query === 'progress' ? '800ms' : '0ms',
-                        }}
-                        unmountOnExit
-                    >
-                        <CircularProgress />
-                    </Fade>
-                )}
+                <Fade in={loading} style={{transitionDelay: loading ? '100ms' : '0ms',}} unmountOnExit>
+                    <CircularProgress />
+                </Fade>
             </div>
         )}
 }

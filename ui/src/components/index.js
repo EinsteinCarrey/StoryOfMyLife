@@ -10,8 +10,7 @@ import Loader from "./loader";
 class Homepage extends Component {
     state = {
         stories:this.props.stories,
-        loading: false,
-        query: 'progress',
+        loading:this.props.loading,
         placeholder: {
             height: 40,
         }
@@ -24,40 +23,19 @@ class Homepage extends Component {
     componentWillReceiveProps(nextProps) {
 
         /* Update the stories dashboard */
-        if(this.state.stories !== nextProps.stories) {
-            this.setState({
-                stories: nextProps.stories
-            });
-        }
+        this.state.stories !== nextProps.stories ? this.setState({ stories: nextProps.stories}): null;
+
+        /* Display loader */
+        this.state.loading !== nextProps.loading ? this.setState({ loading: nextProps.loading}): null
     }
 
-    handleClickQuery = () => {
-        clearTimeout(this.timer);
-
-        if (this.state.query !== 'idle') {
-            this.setState({
-                query: 'idle',
-            });
-            return;
-        }
-
-        this.setState({
-            query: 'progress',
-        });
-        this.timer = setTimeout(() => {
-            this.setState({
-                query: 'success',
-            });
-        }, 2e3);
-    };
-
     render() {
-        const {stories, query, placeholder} = this.state;
+        const {stories, loading, placeholder} = this.state;
         return (
             <div className="homepage">
 
                 <Banner/>
-                <Loader classes={placeholder} query={query}/>
+                {loading &&  <Loader classes={placeholder} loading={loading}/>}
                 <StoriesDashBoard stories={stories}/>
 
             </div>
@@ -67,7 +45,8 @@ class Homepage extends Component {
 
 const mapStateToProps = (state)=> {
     return {
-        stories: state.stories
+        stories: state.stories,
+        loading: state.loading
     }
 };
 
