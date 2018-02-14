@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 import users from './users';
 import comments from './comments';
-import stories from './stories';
+import stories from './storiesReducer';
 
 const combinedReducer = combineReducers({
     users,

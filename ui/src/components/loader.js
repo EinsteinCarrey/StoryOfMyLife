@@ -31,7 +31,7 @@ class Loader extends React.Component {
 
 
 Loader.propTypes = {
-    classes: PropTypes.string.isRequired
+    classes: PropTypes.object.isRequired
 };
 
 export default Loader;

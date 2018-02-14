@@ -4,7 +4,7 @@ import './assets/styler.css';
 import './assets/customJS';
 import registerServiceWorker from './registerServiceWorker';
 import {MuiThemeProvider, createMuiTheme} from "material-ui";
-import Homepage from './components/homepage';
+import Homepage from './components/index';
 import {Provider} from 'react-redux';
 import store from "./store";
 

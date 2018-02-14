@@ -3,22 +3,8 @@ import Grid from 'material-ui/Grid';
 import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import Typography from 'material-ui/Typography';
-import Loader from "./loader";
 import PropTypes from "prop-types";
 import {withStyles} from "material-ui/styles/index";
-
-const stories = [
-    "title 1",
-    "title 2",
-    "title 3",
-    "title 4",
-    "title 5",
-    "title 6",
-    "title 7",
-    "title 8",
-    "title 9",
-    "title 10"
-];
 
 let styles = theme => ({
     root: {
@@ -34,29 +20,19 @@ let styles = theme => ({
         maxWidth: 345,
     },
     media: {
-        height: 170,
-    },
-    placeholder: {
-        height: 40,
+        height: 120,
     }
 });
 
 
 class StoriesDashBoard extends Component {
 
-    state = {
-        loading: false,
-        query: 'progress',
-    };
-    classes = this.props.classes;
-
     render() {
-        const {card, media, root, button, placeholder} = this.classes;
-        const { loading, query } = this.state;
+        const {card, media, root} = this.props.classes;
+        const {stories} = this.props;
 
         return(
             <section className="stories-dashboard">
-                <Loader classes={placeholder} query={query}/>
                 <div className={root}>
                     <Grid container spacing={24}>
 
@@ -70,19 +46,15 @@ class StoriesDashBoard extends Component {
                                     />
                                     <CardContent>
                                         <Typography variant="headline" component="h2">
-                                            {story}
+                                            {story.title}
                                         </Typography>
-                                        <Typography component="p">
-                                            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                            across all continents except Antarctica
+                                        <Typography noWrap={true} component="p">
+                                            {story.story}
                                         </Typography>
                                     </CardContent>
                                     <CardActions>
                                         <Button size="small" color="primary">
-                                            Share
-                                        </Button>
-                                        <Button size="small" color="primary">
-                                            Learn More
+                                            Read
                                         </Button>
                                     </CardActions>
                                 </Card>

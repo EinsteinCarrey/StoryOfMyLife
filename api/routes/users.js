@@ -1,7 +1,7 @@
 const express = require('express');
 let router = express.Router();
 let User = require('../models/users');
-const sha1 = require('sha1');
+const sha256 = require('sha256');
 const jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 /* Create a new user */
@@ -34,7 +34,7 @@ router.post('/authenticate', function (request, response) {
         }
 
         /* Password is not correct */
-        if(userFound.passwd !== sha1(passwd)){
+        if(userFound.passwd !== sha256(passwd)){
             return response.status(401).send({error: `Password is incorrect`});
         }
 
