@@ -47,7 +47,7 @@ router.post("/authenticate", function (request, response) {
     }).then((userFound)=>{
 
         /* User not found, respond with error message */
-        !userFound ? response.status(401).send({error: `user "${username}" not found`}):
+        !userFound ? response.status(401).send({error: `user ${username} not found`}):
 
             /* Check if password is valid */
             bcrypt.compare(passwd, userFound.passwd).then(function (passwordIsAuthentic) {
