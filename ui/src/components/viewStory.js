@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import Grid from 'material-ui/Grid';
-import Card, { CardActions, CardContent, CardMedia } from 'material-ui/Card';
-import Button from 'material-ui/Button';
+import Card, { CardContent, CardMedia } from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
+import ThumbUp from 'material-ui-icons/ThumbUp';
+import ThumbDown from 'material-ui-icons/ThumbDown';
+import Comment from 'material-ui-icons/Comment';
 import Typography from 'material-ui/Typography';
 import PropTypes from "prop-types";
 import {withStyles} from "material-ui/styles/index";
@@ -23,13 +26,20 @@ class ViewStory extends Component {
 
     render() {
 
-        const {story, classes} = this.props;
+        let {story, classes, comments} = this.props;
         const {card, media, root} = classes;
+
+        if(!story){
+            story = {
+                title: "",
+                story: ""
+            }
+        }
 
         return(
             <section className="view-story">
                 <div className={root}>
-                    <Grid container spacing={24}>
+                    <Grid container spacing={0}>
 
                         <Grid item xs={12} >
                             <Card className={card}>
@@ -37,22 +47,79 @@ class ViewStory extends Component {
                                     className={media}
                                     image="/banner-bg.jpg"
                                     title={story.title}
-                                />
-                                <CardContent>
-                                    <CardActions>
-                                        <Button size="small" color="primary">
-                                            Read
-                                        </Button>
-                                    </CardActions>
-                                    <Typography variant="headline" component="h2">
+                                >
+                                    <br/><br/><br/><br/><br/><br/>
+                                    <br/><br/><br/><br/><br/>
+                                    <Typography variant="display2" >
                                         {story.title}
                                     </Typography>
-                                    <Typography noWrap={true} component="p">
-                                        {story.story}
+                                    <Typography variant="subheading" align="right" >
+                                        Posted on: {story.createdOn}
+                                        <br/>
+                                        Written by: {story.user}
                                     </Typography>
-                                </CardContent>
 
+                                </CardMedia>
                             </Card>
+                        </Grid>
+
+                        <Grid container justify="center" spacing={8}>
+
+                            <Grid item xs={12} md={8} >
+                                <Card className={card}>
+                                    <CardContent>
+
+                                        <Typography variant="headline" component="h2">
+                                            {story.title}
+                                        </Typography>
+                                        <Typography align="right" >
+                                            <IconButton aria-label="Thumbs Up" disabled color="primary">
+                                                <ThumbUp />
+                                            </IconButton>
+                                            <IconButton aria-label="Thumbs Up" disabled color="primary">
+                                                <ThumbDown />
+                                            </IconButton>
+                                            <IconButton aria-label="Thumbs Up" disabled color="primary">
+                                                <Comment />
+                                            </IconButton>
+                                        </Typography>
+                                        <Typography component="p">
+                                            {story.story}
+                                        </Typography>
+                                    </CardContent>
+
+                                </Card>
+                            </Grid>
+
+                            <Grid item xs={12} md={4}>
+                                <Card className={card}>
+                                    <CardContent>
+                                        <Typography variant="headline" component="h2">
+                                            Comments
+                                        </Typography>
+                                    </CardContent>
+
+                                    <Grid container justify="center" spacing={16}>
+                                        {comments.map((comment, index)=>(
+                                            <Grid item xs={10}>
+                                                <Card key={index} className={card}>
+                                                    <CardContent>
+                                                        <Typography component="p">
+                                                            {comment.comment}
+                                                        </Typography>
+                                                        <Typography align="right" gutterBottom variant="caption">
+                                                            {comment.createdOn}
+                                                        </Typography>
+                                                    </CardContent>
+
+                                                </Card>
+                                            </Grid>
+                                        ))}
+                                    </Grid>
+
+                                </Card>
+                            </Grid>
+
                         </Grid>
 
                     </Grid>

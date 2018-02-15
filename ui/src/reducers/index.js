@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux';
 import users from './users';
-import comments from './comments';
+import comments from './commentsReducer';
 import stories from './storiesReducer';
 import loading from './loaderReducer';
 

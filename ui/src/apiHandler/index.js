@@ -9,10 +9,11 @@ const config = {
 };
 
 /* Query the api */
-const runRequest = (method, endpoint,data) => {
+const runRequest = (method, endpoint, data) => {
 
     /* Concatenate endpoint to the baseUrl */
-    endpoint = baseUrl + endpoint;
+    endpoint ? endpoint = baseUrl + endpoint :
+        endpoint = baseUrl;
 
     switch (method){
         case 'post':

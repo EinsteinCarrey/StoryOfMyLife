@@ -2,7 +2,6 @@ const http = require('http');
 const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
-const index = require('./routes/index');
 const stories = require('./routes/stories');
 const comments = require('./routes/comments');
 const users = require('./routes/users');
@@ -10,8 +9,14 @@ const mongoose = require('mongoose');
 const DBusername = process.env.DB_USER;
 const DBpassword = process.env.DB_PASS;
 const DBConnStr = `mongodb://${DBusername}:${DBpassword}@localhost/story-of-my-life`;
-const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 const cors = require('cors');
+const helper = require('./routes/helperMethods');
+
+/* Returns a substring between two indexes */
+String.prototype.getTextBetween = function(splitOn, middleTextDesired = 1) {
+    return this.split(splitOn)[middleTextDesired];
+};
+
 
 let app = express(); // Initialize express
 app.use(cors()); // Allow cross origin request
@@ -28,44 +33,11 @@ app.use(bodyParser.json());// parse application/json
 app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-form-urlencoded
 
 /* Routes */
-app.use('/', index);
 app.use('/users/', users);
-
-/**
- *  middleware to verify authentication token
- *  all routes from here onwards will require authentication
- */
-app.use(function(request, response, next) {
-
-    // check header or url parameters or post parameters for token
-    let token = request.body.token || request.query.token || request.headers['x-access-token'];
-
-    // decode token
-    if (token) {
-
-        // verifies secret and checks exp
-        jwt.verify(token, process.env.SECRET_KEY, (err, decoded) =>{
-            if (err) {
-                return response.json({errMsg: 'Failed to authenticate token.' });
-            } else {
-                // if everything is good, save to request for use in other routes
-                request.decoded = decoded;
-                next();
-            }
-        });
-
-    } else {
-
-        // if there is no token return an error
-        return response.status(403).send({
-            errMsg: 'No token provided.'
-        });
-
-    }
-});
-
 app.use('/', stories);
 app.use('/:story/comment/', comments);
+app.use('/comment/', comments);
+
 
 /* catch 404 and send error message */
 app.use(function (req, res) {
@@ -93,7 +65,7 @@ const port = process.env.PORT || 3050;
 server.listen(port);
 
 /* Event listener for HTTP server "error" event. */
-server.on('error', () => {
+server.on('error', (error) => {
     if (error.syscall !== 'listen') {
         throw error;
     }

@@ -29,7 +29,7 @@ class StoriesDashBoard extends Component {
 
     render() {
         const {card, media, root} = this.props.classes;
-        const {stories} = this.props;
+        const {stories, viewStory} = this.props;
 
         return(
             <section className="stories-dashboard">
@@ -38,7 +38,9 @@ class StoriesDashBoard extends Component {
 
                         {stories.map((story, index)=>(
                             <Grid key={index} item xs={12} sm={6} md={4} >
-                                <Card className={card}>
+                                <Card className={card} onClick={
+                                    (e) => viewStory(story.referenceSlug, e)
+                                } >
                                     <CardMedia
                                         className={media}
                                         image="/banner-bg.jpg"
