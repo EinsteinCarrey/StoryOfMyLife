@@ -93,7 +93,7 @@ const port = process.env.PORT || 3050;
 server.listen(port);
 
 /* Event listener for HTTP server "error" event. */
-server.on('error', () => {
+server.on('error', (error) => {
     if (error.syscall !== 'listen') {
         throw error;
     }
