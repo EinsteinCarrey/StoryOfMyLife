@@ -1,3 +1,4 @@
+const helper = require("./helperMethods");
 const express = require('express');
 let router = express.Router();
 let Story = require('../models/stories');
@@ -5,8 +6,31 @@ let Comment = require('../models/comments');
 const slug = require('slug');
 const now = new Date();
 
+
+/* Query the DB and if no errors, retrieve all the stories */
+const fetchStory = (query, response)=>{
+    query.exec().then((output)=>{
+        output ? response.send(output):
+            response.status(404).send({msg: "requested story does not exist"});
+    }).catch((err)=>{
+        response.send({errMsg: err});
+    });
+};
+
+/* List all stories */
+router.get('/', function (request, response) {
+    const query = Story.find();
+    fetchStory(query, response);
+});
+
+/* Fetch a single story using referenceSlug as key  */
+router.get('/:referenceSlug', function (request, response) {
+    const query = Story.findOne(request.params);
+    fetchStory(query, response);
+});
+
 /* Create a new story */
-router.post('/', (request, response) =>{
+router.post('/', helper.verifyUser, (request, response) =>{
     /* Get current user */
     const userID = request.decoded.userId;
     request.body.user = userID;
@@ -25,7 +49,7 @@ router.post('/', (request, response) =>{
 });
 
 /* Update a story */
-router.put('/:referenceSlug', (request, response) =>{
+router.put('/:referenceSlug', helper.verifyUser, (request, response) =>{
 
     const key = {referenceSlug : request.params.referenceSlug};
 
@@ -43,7 +67,7 @@ router.put('/:referenceSlug', (request, response) =>{
 });
 
 /* Delete a story */
-router.delete('/:referenceSlug', (request, response) =>{
+router.delete('/:referenceSlug', helper.verifyUser, (request, response) =>{
     const key = {referenceSlug : request.params.referenceSlug};
 
     Story.remove(key).then((output) => {

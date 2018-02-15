@@ -10,18 +10,18 @@ router.post('/', function (request, response) {
     let user = {};
     const {username, displayName, passwd} = request.body;
 
-    // Convert username and display to lowercase
+    /* Convert username and display to lowercase */
     user.username = username.toLowerCase();
     user.displayName = displayName.toLowerCase();
 
-    // If password is not provided or is less than 6 characters long
-    // respond with error message
+    /*  If password is not provided or is less than 6 characters long
+        respond with error message */
     (!passwd || passwd.length < 6) ?
         response.send({
             errMsg: "Please provide a valid password. It should be more than 5 characters"
         }):
 
-        // hash the password using bcrypt and save user to DB
+        /* hash the password using bcrypt and save user to DB */
         bcrypt.hash(passwd, 10).then(function (hash) {
             user.passwd = hash;
             let newUser = new User(user);

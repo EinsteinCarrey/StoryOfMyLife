@@ -1,12 +1,8 @@
+const helper = require("./helperMethods");
 const express = require('express');
 let router = express.Router();
 let Comment = require('../models/comments');
 const now = new Date();
-
-/* Get substring between two indexes */
-String.prototype.getTextBetween = function(splitOn, middleTextDesired = 1) {
-    return this.split(splitOn)[middleTextDesired];
-};
 
 /* Create a new comment on a story */
 router.get('/', (request, response) =>{
@@ -23,7 +19,7 @@ router.get('/', (request, response) =>{
 });
 
 /* Create a new comment on a story */
-router.post('/', (request, response) =>{
+router.post('/', helper.verifyUser, helper.verifyUser, (request, response) =>{
     /* Get current user */
     request.body.user = request.decoded.userId;
 
@@ -33,7 +29,7 @@ router.post('/', (request, response) =>{
     /* Get story slug */
     request.body.storyRef = request.originalUrl.getTextBetween("/");
 
-    // Create comment
+    /* Create comment */
     let newComment = new Comment(request.body);
 
     /* Save it to the DB. */
@@ -45,7 +41,7 @@ router.post('/', (request, response) =>{
 });
 
 /* Update a comment */
-router.put('/:commentID', (request, response) =>{
+router.put('/:commentID', helper.verifyUser, (request, response) =>{
 
     /* Get current user */
     const user = request.decoded.userId;
@@ -68,7 +64,7 @@ router.put('/:commentID', (request, response) =>{
 });
 
 /* Delete a comment */
-router.delete('/:commentID', (request, response) =>{
+router.delete('/:commentID', helper.verifyUser, (request, response) =>{
 
     /* Get current user */
     const user = request.decoded.userId;
