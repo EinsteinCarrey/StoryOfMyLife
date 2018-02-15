@@ -42,7 +42,7 @@ router.post('/', helper.verifyUser, (request, response) =>{
 
     /* Save it to the DB. */
     newStory.save().then((output)=>{
-        response.send(output);
+        response.status(201).send(output);
     }).catch((err)=>{
         response.send(err);
     });
@@ -60,7 +60,8 @@ router.put('/:referenceSlug', helper.verifyUser, (request, response) =>{
         createdOn: now.toDateString()
     };
     Story.update(key, updatedStory).then((output) => {
-        response.send(output);
+        output.n > 0 ? response.send({msg: "Story updated successfully"}) :
+            response.status(404).send({errMsg: "You tried updating a story that doesn't exist"});
     }).catch((err)=>{
         response.send({errMsg: err});
     });
@@ -71,11 +72,8 @@ router.delete('/:referenceSlug', helper.verifyUser, (request, response) =>{
     const key = {referenceSlug : request.params.referenceSlug};
 
     Story.remove(key).then((output) => {
-        let message;
-        output.n > 0? message = "Story has been deleted" : message = "This story does not exists";
-        response.send({
-            message: message
-        });
+        output.n > 0 ? response.send({msg: "Story deleted successfully"}) :
+            response.status(404).send({errMsg: "You tried deleting a story that doesn't exist"});
     }).catch((err)=>{
         response.send({errMsg: err});
     });

@@ -36,6 +36,7 @@ app.use(bodyParser.urlencoded({extended: true})); // parse application/x-www-for
 app.use('/users/', users);
 app.use('/', stories);
 app.use('/:story/comment/', comments);
+app.use('/comment/', comments);
 
 
 /* catch 404 and send error message */
