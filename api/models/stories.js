@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 /*
@@ -9,18 +9,18 @@ const StoriesSchema = new Schema({
         type: String,
         maxLength: 40,
         unique: [true, `Title must be unique`],
-        required: [true, 'Story must have a title']
+        required: [true, "Story must have a title"]
     },referenceSlug: {
         type: String,
         maxLength: 200
     },story: {
         type: String,
         minLength: 50,
-        required: [true, 'story must be provided']
+        required: [true, "story must be provided"]
     },
     user: {
         type: String,
-        required: [true, 'Story must belong to a user']
+        required: [true, "Story must belong to a user"]
     },
     createdOn:{
         type: String,
@@ -28,7 +28,7 @@ const StoriesSchema = new Schema({
     }
 });
 
-/* Create a collection called 'stories' */
-const Stories = mongoose.model('storie', StoriesSchema);
+/* Create a collection called "stories" */
+const Stories = mongoose.model("storie", StoriesSchema);
 
 module.exports = Stories;

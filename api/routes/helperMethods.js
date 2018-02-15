@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const jwt = require("jsonwebtoken"); // used to create, sign, and verify tokens
 
 let helperMethods = {};
 
@@ -6,7 +6,7 @@ let helperMethods = {};
 helperMethods.verifyUser = function (request, response, next){
 
     // check header or url parameters or post parameters for token
-    let token = request.body.token || request.query.token || request.headers['x-access-token'];
+    let token = request.body.token || request.query.token || request.headers["x-access-token"];
 
     // decode token
     if (token) {
@@ -14,7 +14,7 @@ helperMethods.verifyUser = function (request, response, next){
         // verifies secret and checks exp
         jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
             if (err) {
-                return response.json({errMsg: 'Authenticate token is invalid'});
+                return response.json({errMsg: "Authenticate token is invalid"});
             } else {
                 // if everything is good, save to request for use in other routes
                 request.decoded = decoded;
@@ -26,7 +26,7 @@ helperMethods.verifyUser = function (request, response, next){
 
         // if there is no token return an error
         return response.status(403).send({
-            errMsg: 'No token provided.'
+            errMsg: "No token provided."
         });
 
     }

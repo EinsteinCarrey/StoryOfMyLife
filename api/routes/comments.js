@@ -1,11 +1,11 @@
 const helper = require("./helperMethods");
-const express = require('express');
+const express = require("express");
 let router = express.Router();
-let Comment = require('../models/comments');
+let Comment = require("../models/comments");
 const now = new Date();
 
 /* Create a new comment on a story */
-router.get('/', (request, response) =>{
+router.get("/", (request, response) =>{
 
     /* Set story slug as key */
     const key = {storyRef: request.originalUrl.getTextBetween("/")};
@@ -19,7 +19,7 @@ router.get('/', (request, response) =>{
 });
 
 /* Create a new comment on a story */
-router.post('/', helper.verifyUser, helper.verifyUser, (request, response) =>{
+router.post("/", helper.verifyUser, helper.verifyUser, (request, response) =>{
     /* Get current user */
     request.body.user = request.decoded.userId;
 
@@ -41,7 +41,7 @@ router.post('/', helper.verifyUser, helper.verifyUser, (request, response) =>{
 });
 
 /* Update a comment */
-router.put('/:commentID', helper.verifyUser, (request, response) =>{
+router.put("/:commentID", helper.verifyUser, (request, response) =>{
 
     /* Get current user */
     const user = request.decoded.userId;
@@ -64,7 +64,7 @@ router.put('/:commentID', helper.verifyUser, (request, response) =>{
 });
 
 /* Delete a comment */
-router.delete('/:commentID', helper.verifyUser, (request, response) =>{
+router.delete("/:commentID", helper.verifyUser, (request, response) =>{
 
     /* Get current user */
     const user = request.decoded.userId;

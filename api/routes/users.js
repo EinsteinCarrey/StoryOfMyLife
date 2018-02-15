@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 let router = express.Router();
-let User = require('../models/users');
-const bcrypt = require('bcrypt');
-const jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+let User = require("../models/users");
+const bcrypt = require("bcrypt");
+const jwt    = require("jsonwebtoken"); // used to create, sign, and verify tokens
 
 /* Create a new user */
-router.post('/', function (request, response) {
+router.post("/", function (request, response) {
 
     let user = {};
     const {username, displayName, passwd} = request.body;
@@ -37,7 +37,7 @@ router.post('/', function (request, response) {
 
 
 /* Authenticate a user */
-router.post('/authenticate', function (request, response) {
+router.post("/authenticate", function (request, response) {
 
     const {username, passwd} = request.body;
 
@@ -47,7 +47,7 @@ router.post('/authenticate', function (request, response) {
     }).then((userFound)=>{
 
         /* User not found, respond with error message */
-        !userFound ? response.status(401).send({error: `user '${username}' not found`}):
+        !userFound ? response.status(401).send({error: `user "${username}" not found`}):
 
             /* Check if password is valid */
             bcrypt.compare(passwd, userFound.passwd).then(function (passwordIsAuthentic) {
@@ -61,9 +61,9 @@ router.post('/authenticate', function (request, response) {
                     const token = jwt.sign(
                         {userId: userFound._id},
                         process.env.SECRET_KEY,
-                        {expiresIn: '1 day'}
+                        {expiresIn: "1 day"}
                     );
-                    /* Return auth token with user's display name */
+                    /* Return auth token with user"s display name */
                     response.send({
                         token: token,
                         displayName: userFound.displayName

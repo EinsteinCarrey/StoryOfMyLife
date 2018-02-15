@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 /*
@@ -7,15 +7,15 @@ const Schema = mongoose.Schema;
 const CommentsSchema = new Schema({
     comment: {
         type: String,
-        required: [true, 'Comment must be provided']
+        required: [true, "Comment must be provided"]
     },
     user: {
         type: String,
-        required: [true, 'Each comment must belong to a user']
+        required: [true, "Each comment must belong to a user"]
     },
     storyRef: {
         type: String,
-        required: [true, 'Each comments must belong to a story']
+        required: [true, "Each comments must belong to a story"]
     },
     createdOn:{
         type: String,
@@ -24,7 +24,7 @@ const CommentsSchema = new Schema({
 });
 
 
-/* Create a collection called 'comment' */
-const Comments = mongoose.model('comment', CommentsSchema);
+/* Create a collection called "comment" */
+const Comments = mongoose.model("comment", CommentsSchema);
 
 module.exports = Comments;

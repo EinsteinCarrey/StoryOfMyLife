@@ -1,9 +1,9 @@
 const helper = require("./helperMethods");
-const express = require('express');
+const express = require("express");
 let router = express.Router();
-let Story = require('../models/stories');
-let Comment = require('../models/comments');
-const slug = require('slug');
+let Story = require("../models/stories");
+let Comment = require("../models/comments");
+const slug = require("slug");
 const now = new Date();
 
 
@@ -18,19 +18,19 @@ const fetchStory = (query, response)=>{
 };
 
 /* List all stories */
-router.get('/', function (request, response) {
+router.get("/", function (request, response) {
     const query = Story.find();
     fetchStory(query, response);
 });
 
 /* Fetch a single story using referenceSlug as key  */
-router.get('/:referenceSlug', function (request, response) {
+router.get("/:referenceSlug", function (request, response) {
     const query = Story.findOne(request.params);
     fetchStory(query, response);
 });
 
 /* Create a new story */
-router.post('/', helper.verifyUser, (request, response) =>{
+router.post("/", helper.verifyUser, (request, response) =>{
     /* Get current user */
     const userID = request.decoded.userId;
     request.body.user = userID;
@@ -49,7 +49,7 @@ router.post('/', helper.verifyUser, (request, response) =>{
 });
 
 /* Update a story */
-router.put('/:referenceSlug', helper.verifyUser, (request, response) =>{
+router.put("/:referenceSlug", helper.verifyUser, (request, response) =>{
 
     const key = {referenceSlug : request.params.referenceSlug};
 
@@ -68,7 +68,7 @@ router.put('/:referenceSlug', helper.verifyUser, (request, response) =>{
 });
 
 /* Delete a story */
-router.delete('/:referenceSlug', helper.verifyUser, (request, response) =>{
+router.delete("/:referenceSlug", helper.verifyUser, (request, response) =>{
     const key = {referenceSlug : request.params.referenceSlug};
 
     Story.remove(key).then((output) => {
