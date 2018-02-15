@@ -43,3 +43,22 @@ export const fetchComments = (storyRef) =>{
     }
 
 };
+
+export const createComment = (storyRef, comment) =>{
+
+    return function (dispatch) {
+
+        /* display loader */
+        dispatch({type: actionTypes.START_LOADER});
+
+        fetchFromApi("post", storyRef+"/comment", comment).then((outPut) => {
+            dispatch({
+                type: actionTypes.CREATE_COMMENTS_SUCCESS,
+                comment: outPut
+            });
+        }).catch((err) => {
+            dispatch(displayErrorMessage(err));
+        });
+    }
+
+};

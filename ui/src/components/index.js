@@ -4,13 +4,14 @@ import StoriesDashBoard from "./storiesDashBoard";
 import ViewStory from "./viewStory";
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
-import {fetchStories, fetchComments} from '../actions/';
+import {fetchStories, fetchComments, createComment} from '../actions/';
 import Loader from "./loader";
 
 
 class Homepage extends Component {
     state = {
         ...this.props,
+        newData: {},
         placeholder: {
             height: 40,
         }
@@ -23,11 +24,13 @@ class Homepage extends Component {
     storyRef = this.state.match.params.storyRef;
 
     componentWillMount(){
+        const {fetchStories, fetchComments} = this.props;
+
         /* Fetch stories from API */
-        if(this.state.stories.length < 1) this.props.fetchStories();
+        if(this.state.stories.length < 1) fetchStories();
 
         /* Fetch comments from API */
-        if(this.storyRef) this.props.fetchComments(this.storyRef);
+        if(this.storyRef) fetchComments(this.storyRef);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -46,8 +49,20 @@ class Homepage extends Component {
         this.history.push(`/${referenceSlug}`);
     };
 
+    updateNewDataState = (source, e) => {
+        let newDataState = this.state.newData;
+        newDataState[source] = e.target.value;
+        return this.setState({newData: newDataState});
+    };
+
+    createComment = () =>{
+        const data = {comment: this.state.newData.comment};
+        this.props.createComment(this.storyRef, data);
+    };
+
     render() {
         const {stories, loading, placeholder, comments} = this.state;
+        const {createComment, updateNewDataState} = this;
         return (
             <div className="homepage">
 
@@ -57,12 +72,16 @@ class Homepage extends Component {
                     this.storyRef ?
                         <ViewStory
                             comments={comments}
+                            createComment={createComment}
+                            updateNewDataState={updateNewDataState}
                             /* Pass only the story that matches the storyRef */
                             story={stories.find(x => x.referenceSlug === this.storyRef)}
                         /> :
                         <div>
                             <Banner/>
-                            <StoriesDashBoard stories={stories} viewStory={this.viewStory}/>
+                            <StoriesDashBoard
+                                stories={stories}
+                                viewStory={this.viewStory}/>
                         </div>
                 }
 
@@ -80,7 +99,7 @@ const mapStateToProps = (state)=> {
 };
 
 const mapDispatchToProps = (dispatch)=>{
-    return bindActionCreators({fetchStories, fetchComments}, dispatch);
+    return bindActionCreators({fetchStories, fetchComments, createComment}, dispatch);
 };
 
 
