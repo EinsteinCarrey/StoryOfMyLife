@@ -1,0 +1,26 @@
+{
+  "name": "storyofmylife",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./index"
+  },
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "chai": "^4.1.2",
+    "cors": "^2.8.4",
+    "express": "~4.15.5",
+    "jsonwebtoken": "^8.1.1",
+    "mocha": "^5.0.0",
+    "mongoose": "^5.0.3",
+    "morgan": "~1.9.0",
+    "serve-favicon": "~2.4.5",
+    "sinon": "^2.4.1",
+    "sinon-mongoose": "^2.0.2",
+    "slug": "^0.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.12"
+  }
+}
