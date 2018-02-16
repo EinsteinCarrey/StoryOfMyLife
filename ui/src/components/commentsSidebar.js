@@ -30,7 +30,7 @@ class CommentsSidebar extends Component {
 
     render() {
 
-        const {comments, classes, createComment, updateNewDataState} = this.props;
+        const {comments, classes, createComment, updateInputState} = this.props;
         const {newComment} = this.state;
         const {card, textField} = classes;
 
@@ -46,7 +46,7 @@ class CommentsSidebar extends Component {
                     <Grid container justify="center" spacing={16}>
                         <Grid item xs={10}>
                             <TextField
-                                onChange={(e) => updateNewDataState("comment", e)}
+                                onChange={(e) => updateInputState("comment", e)}
                                 id="create-comment"
                                 label="Comment on this story"
                                 multiline

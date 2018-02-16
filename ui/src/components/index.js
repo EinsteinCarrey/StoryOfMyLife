@@ -4,14 +4,21 @@ import StoriesDashBoard from "./storiesDashBoard";
 import ViewStory from "./viewStory";
 import {bindActionCreators} from "redux";
 import {connect} from 'react-redux';
-import {fetchStories, fetchComments, createComment} from '../actions/';
+import {fetchStories, fetchComments, createComment, authenticateUser} from '../actions/';
 import Loader from "./loader";
+import AuthenticationModal from "./authenticationModal";
 
 
 class Homepage extends Component {
     state = {
         ...this.props,
-        newData: {},
+        inputData: {
+            signupAction: "login",
+            passwd: "",
+            username: "",
+            displayName: ""
+        },
+        authModalShown: false,
         placeholder: {
             height: 40,
         }
@@ -49,22 +56,50 @@ class Homepage extends Component {
         this.history.push(`/${referenceSlug}`);
     };
 
-    updateNewDataState = (source, e) => {
-        let newDataState = this.state.newData;
+    updateInputState = (source, e) => {
+        let newDataState = this.state.inputData;
         newDataState[source] = e.target.value;
-        return this.setState({newData: newDataState});
+        this.setState({inputData: newDataState});
     };
 
     createComment = () =>{
-        const data = {comment: this.state.newData.comment};
+        const data = {comment: this.state.inputData.comment};
         this.props.createComment(this.storyRef, data);
     };
 
+    authenticateUser = () =>{
+        const {passwd, username, displayName, signupAction} = this.state.inputData;
+        const data = {
+            passwd,
+            username,
+            displayName
+        };
+        let endPoint = "";
+        signupAction === "login" ? endPoint = "users/authenticate" : endPoint="users";
+        this.props.authenticateUser(endPoint, data);
+    };
+
+    showAuthModal = () =>{
+        this.setState({authModalShown: true});
+    };
+
+    hideAuthModal = () => {
+        this.setState({authModalShown: false});
+    };
+
     render() {
-        const {stories, loading, placeholder, comments} = this.state;
-        const {createComment, updateNewDataState} = this;
+        const {stories, loading, placeholder, comments, authModalShown, inputData} = this.state;
+        const {createComment, updateInputState, showAuthModal, viewStory, hideAuthModal, authenticateUser} = this;
         return (
             <div className="homepage">
+
+                <AuthenticationModal
+                    userData={inputData}
+                    authModalShown={authModalShown}
+                    authenticateUser={authenticateUser}
+                    hideAuthModal={hideAuthModal}
+                    updateInputState={updateInputState}
+                />
 
                 {loading &&  <Loader classes={placeholder} loading={loading}/>}
 
@@ -73,15 +108,15 @@ class Homepage extends Component {
                         <ViewStory
                             comments={comments}
                             createComment={createComment}
-                            updateNewDataState={updateNewDataState}
+                            updateInputState={updateInputState}
                             /* Pass only the story that matches the storyRef */
                             story={stories.find(x => x.referenceSlug === this.storyRef)}
                         /> :
                         <div>
-                            <Banner/>
+                            <Banner showAuthModal={showAuthModal}/>
                             <StoriesDashBoard
                                 stories={stories}
-                                viewStory={this.viewStory}/>
+                                viewStory={viewStory}/>
                         </div>
                 }
 
@@ -99,7 +134,7 @@ const mapStateToProps = (state)=> {
 };
 
 const mapDispatchToProps = (dispatch)=>{
-    return bindActionCreators({fetchStories, fetchComments, createComment}, dispatch);
+    return bindActionCreators({fetchStories, fetchComments, createComment, authenticateUser}, dispatch);
 };
 
 

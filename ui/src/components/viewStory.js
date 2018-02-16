@@ -27,7 +27,7 @@ class ViewStory extends Component {
 
     render() {
 
-        let {story, classes, comments, createComment, updateNewDataState} = this.props;
+        let {story, classes, comments, createComment, updateInputState} = this.props;
         const {card, media, root} = classes;
 
         if(!story){
@@ -94,7 +94,7 @@ class ViewStory extends Component {
 
                             <CommentsSidebar
                                 createComment={createComment}
-                                updateNewDataState={updateNewDataState}
+                                updateInputState={updateInputState}
                                 comments={comments}/>
 
                         </Grid>

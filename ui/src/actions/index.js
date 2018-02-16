@@ -62,3 +62,23 @@ export const createComment = (storyRef, comment) =>{
     }
 
 };
+
+export const authenticateUser = (endpoint, userData) =>{
+    return function (dispatch) {
+
+        /* display loader */
+        dispatch({type: actionTypes.START_LOADER});
+
+        fetchFromApi("post", endpoint, userData).then((outPut) => {
+            /* Set token in localStorage */
+            localStorage.setItem("token", outPut.token);
+
+            dispatch({
+                type: actionTypes.AUTHENTICATE_USER_SUCCESS,
+                displayName: outPut.displayName
+            });
+        }).catch((err) => {
+            dispatch(displayErrorMessage(err));
+        });
+    }
+};

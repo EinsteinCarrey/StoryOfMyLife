@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
 
 
 class Banner extends Component {
     render() {
+        const {showAuthModal} = this.props;
+
         return(
             <div className="header">
                 {/**
@@ -10,8 +14,16 @@ class Banner extends Component {
                  * Fades out when user scrolls up
                  **/
                 }
+                <div className="login-btn">
+                    <Button size="large" variant="raised"  color="primary" onClick={showAuthModal}>
+                        Login
+                    </Button>
+                </div>
+
                 <section className="banner">
-                    <div className="homepage-title">Story of my life</div>
+                    <Typography className="homepage-title" variant="display3">
+                        Story of my life
+                    </Typography>
                 </section>
 
                 {/**
