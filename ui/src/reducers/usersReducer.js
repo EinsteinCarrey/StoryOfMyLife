@@ -1,6 +1,6 @@
 import {AUTHENTICATE_USER_SUCCESS} from "../actions/actionTypes";
 
-const initialState = {};
+const initialState = {displayName: localStorage.getItem("displayName")};
 
 
 export default function loaderReducer(state = initialState, action){

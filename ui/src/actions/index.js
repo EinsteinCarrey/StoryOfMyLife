@@ -72,6 +72,7 @@ export const authenticateUser = (endpoint, userData) =>{
         fetchFromApi("post", endpoint, userData).then((outPut) => {
             /* Set token in localStorage */
             localStorage.setItem("token", outPut.token);
+            localStorage.setItem("displayName", outPut.displayName);
 
             dispatch({
                 type: actionTypes.AUTHENTICATE_USER_SUCCESS,

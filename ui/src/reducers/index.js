@@ -1,11 +1,11 @@
 import {combineReducers} from 'redux';
-import users from './usersReducer';
+import user from './usersReducer';
 import comments from './commentsReducer';
 import stories from './storiesReducer';
 import loading from './loaderReducer';
 
 const combinedReducer = combineReducers({
-    users,
+    user,
     comments,
     stories,
     loading

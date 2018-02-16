@@ -5,8 +5,7 @@ const baseUrl = 'http://localhost:3050/';
 
 /* Authorization headers */
 const config = {
-    // headers: {'x-access-token': localStorage.getItem('token')}
-    headers: {'x-access-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YTg1ZGVhYjc4NjRmN2M1ZDkxNDVlYjMiLCJpYXQiOjE1MTg3MzAwNTgsImV4cCI6MTUxODgxNjQ1OH0.yzhT_QpPL5z-7IbK93V_rmhIT8_zwCb277ndZSoOteg"}
+    headers: {'x-access-token': localStorage.getItem('token')}
 };
 
 /* Query the api */

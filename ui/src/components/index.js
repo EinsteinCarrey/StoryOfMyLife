@@ -50,6 +50,9 @@ class Homepage extends Component {
 
         /* Display loader */
         this.state.loading !== nextProps.loading ? this.setState({ loading: nextProps.loading}): null
+
+        /* Update user info */
+        this.state.user !== nextProps.user ? this.setState({ user: nextProps.user}): null
     }
 
     viewStory = (referenceSlug, e) =>{
@@ -79,6 +82,12 @@ class Homepage extends Component {
         this.props.authenticateUser(endPoint, data);
     };
 
+    logOut = () =>{
+        localStorage.removeItem("token");
+        localStorage.removeItem("displayName");
+        this.setState({user: {}})
+    };
+
     showAuthModal = () =>{
         this.setState({authModalShown: true});
     };
@@ -88,8 +97,17 @@ class Homepage extends Component {
     };
 
     render() {
-        const {stories, loading, placeholder, comments, authModalShown, inputData} = this.state;
-        const {createComment, updateInputState, showAuthModal, viewStory, hideAuthModal, authenticateUser} = this;
+        const {stories, loading, placeholder, comments, authModalShown, inputData, user} = this.state;
+        const {
+            createComment,
+            updateInputState,
+            showAuthModal,
+            viewStory,
+            hideAuthModal,
+            authenticateUser,
+            logOut
+        } = this;
+
         return (
             <div className="homepage">
 
@@ -113,7 +131,11 @@ class Homepage extends Component {
                             story={stories.find(x => x.referenceSlug === this.storyRef)}
                         /> :
                         <div>
-                            <Banner showAuthModal={showAuthModal}/>
+                            <Banner
+                                user={user}
+                                logOut={logOut}
+                                showAuthModal={showAuthModal}
+                            />
                             <StoriesDashBoard
                                 stories={stories}
                                 viewStory={viewStory}/>
@@ -129,7 +151,8 @@ const mapStateToProps = (state)=> {
     return {
         stories: state.stories,
         loading: state.loading,
-        comments: state.comments
+        comments: state.comments,
+        user: state.user
     }
 };
 

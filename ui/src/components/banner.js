@@ -5,7 +5,8 @@ import Button from 'material-ui/Button';
 
 class Banner extends Component {
     render() {
-        const {showAuthModal} = this.props;
+        const {showAuthModal, logOut, user} = this.props;
+        const userLoggedIn = user.displayName;
 
         return(
             <div className="header">
@@ -15,9 +16,20 @@ class Banner extends Component {
                  **/
                 }
                 <div className="login-btn">
-                    <Button size="large" variant="raised"  color="primary" onClick={showAuthModal}>
-                        Login
-                    </Button>
+                    {
+                        userLoggedIn ?
+                            <div>
+                                <Button size="large" variant="raised" color="default">
+                                    Hi {userLoggedIn}
+                                </Button>
+                                <Button size="large" variant="raised" color="primary" onClick={logOut}>
+                                    Log Out
+                                </Button>
+                            </div> :
+                            <Button size="large" variant="raised"  color="primary" onClick={showAuthModal}>
+                                Login
+                            </Button>
+                    }
                 </div>
 
                 <section className="banner">
