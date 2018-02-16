@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Fade from 'material-ui/transitions/Fade';
-import { CircularProgress } from 'material-ui/Progress';
+import { LinearProgress } from 'material-ui/Progress';
 
 class Loader extends React.Component {
 
@@ -12,7 +12,7 @@ class Loader extends React.Component {
         return(
             <div className={["loader", classes.placeholder].join(' ')}>
                 <Fade in={loading} style={{transitionDelay: loading ? '100ms' : '0ms',}} unmountOnExit>
-                    <CircularProgress />
+                    <LinearProgress />
                 </Fade>
             </div>
         )}
