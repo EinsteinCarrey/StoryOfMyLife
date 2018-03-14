@@ -30,14 +30,23 @@ body{
     margin-bottom: 20px;
 }
 
-.banner .MuiTypography-root-25{
+.app-name{
     color: rgba(255, 255, 255, 0.8);
+}
+
+.banner-buttons{
+    color: #ffffff;
+    text-shadow: #000000 1px 0 31px;
+    float: right;
+    padding-left: 20px;
+    text-decoration: underline;
+    text-decoration-style: solid;
 }
 
 .login-btn{
     position: fixed;
     z-index: 999;
-    left: 75%;
+    left: 67%;
     top: 5px;
 }
 

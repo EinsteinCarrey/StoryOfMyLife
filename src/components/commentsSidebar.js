@@ -64,8 +64,8 @@ class CommentsSidebar extends Component {
                             </Button>
                         </Grid>
                         {comments.map((comment, index)=>(
-                            <Grid item xs={10}>
-                                <Card key={index} className={card}>
+                            <Grid key={index} item xs={10}>
+                                <Card className={card}>
                                     <CardContent>
                                         <Typography component="p">
                                             {comment.comment}

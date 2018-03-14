@@ -7,7 +7,7 @@ import {connect} from 'react-redux';
 import {fetchStories, fetchComments, createComment, authenticateUser} from '../actions/';
 import Loader from "./loader";
 import AuthenticationModal from "./authenticationModal";
-
+import CreateStoryModal from "./createStoryModal";
 
 class Homepage extends Component {
     state = {
@@ -19,6 +19,7 @@ class Homepage extends Component {
             displayName: ""
         },
         authModalShown: false,
+        createStoryModalShown: false,
         placeholder: {
             height: 40,
         }
@@ -92,19 +93,38 @@ class Homepage extends Component {
         this.setState({authModalShown: true});
     };
 
+    showCreateStoryModal = () =>{
+        this.setState({createStoryModalShown: true});
+    };
+
     hideAuthModal = () => {
         this.setState({authModalShown: false});
     };
 
+    hideCreateStoryModal = () => {
+        this.setState({createStoryModalShown: false});
+    };
+
     render() {
-        const {stories, loading, placeholder, comments, authModalShown, inputData, user} = this.state;
+        const {
+            stories,
+            loading,
+            placeholder,
+            comments,
+            authModalShown,
+            inputData,
+            user,
+            createStoryModalShown
+        } = this.state;
         const {
             createComment,
             updateInputState,
             showAuthModal,
             viewStory,
             hideAuthModal,
+            hideCreateStoryModal,
             authenticateUser,
+            showCreateStoryModal,
             logOut
         } = this;
 
@@ -135,6 +155,7 @@ class Homepage extends Component {
                                 user={user}
                                 logOut={logOut}
                                 showAuthModal={showAuthModal}
+                                showCreateStoryModal={showCreateStoryModal}
                             />
                             <StoriesDashBoard
                                 stories={stories}

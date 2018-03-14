@@ -5,7 +5,7 @@ import Button from 'material-ui/Button';
 
 class Banner extends Component {
     render() {
-        const {showAuthModal, logOut, user} = this.props;
+        const {showAuthModal, logOut, user, showCreateStoryModal} = this.props;
         const userLoggedIn = user.displayName;
 
         return(
@@ -26,15 +26,26 @@ class Banner extends Component {
                                     Log Out
                                 </Button>
                             </div> :
-                            <Button size="large" variant="raised"  color="primary" onClick={showAuthModal}>
-                                Login
-                            </Button>
+                            <div>
+                                <Typography
+                                    color="primary"
+                                    variant="headline">
+                                    <div className={"banner-buttons"}
+                                         onClick={showCreateStoryModal}>
+                                        Tell your story
+                                    </div>
+                                    <div className={"banner-buttons"}
+                                         onClick={showAuthModal}>
+                                        Login
+                                    </div>
+                                </Typography>
+                            </div>
                     }
                 </div>
 
                 <section className="banner">
-                    <Typography className="homepage-title" variant="display3">
-                        Story of my life
+                    <Typography variant="display3" className="homepage-title">
+                        <div className="app-name">Story of my life</div>
                     </Typography>
                 </section>
 
